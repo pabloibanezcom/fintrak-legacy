@@ -1686,6 +1686,30 @@
           }
         },
         {
+          "name": "Get Category by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{rootUrl}}/api/categories/{{category_id}}",
+              "host": [
+                "{{rootUrl}}"
+              ],
+              "path": [
+                "api",
+                "categories",
+                "{{category_id}}"
+              ]
+            },
+            "description": "Retrieve a specific category for the authenticated user"
+          }
+        },
+        {
           "name": "Create Category",
           "event": [
             {
@@ -1816,6 +1840,30 @@
           }
         },
         {
+          "name": "Get Tag by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{rootUrl}}/api/tags/{{tag_id}}",
+              "host": [
+                "{{rootUrl}}"
+              ],
+              "path": [
+                "api",
+                "tags",
+                "{{tag_id}}"
+              ]
+            },
+            "description": "Retrieve a specific tag for the authenticated user"
+          }
+        },
+        {
           "name": "Create Tag",
           "event": [
             {
@@ -1859,9 +1907,65 @@
             },
             "description": "Create a new tag"
           }
+        },
+        {
+          "name": "Update Tag",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Vacation\",\n  \"color\": \"#E91E63\",\n  \"icon\": \"beach\"\n}"
+            },
+            "url": {
+              "raw": "{{rootUrl}}/api/tags/{{tag_id}}",
+              "host": [
+                "{{rootUrl}}"
+              ],
+              "path": [
+                "api",
+                "tags",
+                "{{tag_id}}"
+              ]
+            },
+            "description": "Update an existing tag"
+          }
+        },
+        {
+          "name": "Delete Tag",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{rootUrl}}/api/tags/{{tag_id}}",
+              "host": [
+                "{{rootUrl}}"
+              ],
+              "path": [
+                "api",
+                "tags",
+                "{{tag_id}}"
+              ]
+            },
+            "description": "Delete an existing tag"
+          }
         }
       ],
-      "description": "CRUD operations for tag management"
+      "description": "Complete CRUD operations for tag management"
     },
     {
       "name": "Counterparties",
