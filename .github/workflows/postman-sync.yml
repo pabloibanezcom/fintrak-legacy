@@ -1,0 +1,56 @@
+name: Sync Postman collection
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/api/**'
+      - 'packages/types/**'
+      - '.github/workflows/postman-sync.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: postman-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.ref == 'refs/heads/main'
+    name: Publish collection to Postman
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Build Postman API payload
+        run: |
+          jq -e '.info.schema == "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" and (.item | type == "array" and length > 0)' apps/api/Fintrak-API.postman_collection.json > /dev/null
+          jq '{ collection: . }' apps/api/Fintrak-API.postman_collection.json > "$RUNNER_TEMP/postman-payload.json"
+
+      - name: Replace the cloud collection
+        env:
+          POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+          POSTMAN_COLLECTION_ID: ${{ secrets.POSTMAN_COLLECTION_ID }}
+        run: |
+          if [ -z "$POSTMAN_API_KEY" ] || [ -z "$POSTMAN_COLLECTION_ID" ]; then
+            echo "::error::Configure POSTMAN_API_KEY and POSTMAN_COLLECTION_ID in repository Actions secrets."
+            exit 1
+          fi
+          if ! curl --fail --silent --show-error --connect-timeout 10 --max-time 60 \
+            --request PUT \
+            --url "https://api.getpostman.com/collections/$POSTMAN_COLLECTION_ID" \
+            --header "X-Api-Key: $POSTMAN_API_KEY" \
+            --header "Content-Type: application/json" \
+            --data-binary @"$RUNNER_TEMP/postman-payload.json" \
+            --output "$RUNNER_TEMP/postman-response.json"; then
+            echo "::error::Postman collection update failed."
+            exit 1
+          fi
+          jq -e '.collection.id and .collection.name' "$RUNNER_TEMP/postman-response.json" > /dev/null
+          echo "Postman collection updated."
