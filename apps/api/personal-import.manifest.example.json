@@ -1,0 +1,37 @@
+{
+  "since": "2026-01-01",
+  "targetDatabase": "fintrak_personal",
+  "sources": [
+    {
+      "path": "/path/to/bbva-personal.xlsx",
+      "sourceId": "bbva-personal-2026",
+      "bank": "BBVA",
+      "accountId": "bbva-personal",
+      "accountName": "BBVA personal",
+      "defaultCurrency": "EUR"
+    },
+    {
+      "path": "/path/to/bbva-shared.xlsx",
+      "sourceId": "bbva-shared-2026",
+      "bank": "BBVA",
+      "accountId": "bbva-shared",
+      "accountName": "BBVA shared",
+      "defaultCurrency": "EUR"
+    },
+    {
+      "path": "/path/to/santander-personal.xlsx",
+      "sourceId": "santander-personal-2026",
+      "bank": "Santander",
+      "accountId": "santander-personal",
+      "accountName": "Santander personal",
+      "defaultCurrency": "EUR"
+    },
+    {
+      "path": "/path/to/revolut.csv",
+      "sourceId": "revolut-2026",
+      "bank": "Revolut",
+      "accountId": "revolut",
+      "accountName": "Revolut"
+    }
+  ]
+}

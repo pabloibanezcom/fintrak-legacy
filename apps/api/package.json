@@ -15,7 +15,10 @@
     "lint-fix": "biome check . --write",
     "format": "biome format .",
     "format-fix": "biome format . --write",
-    "generate-openapi": "ts-node scripts/generate-openapi.ts"
+    "generate-openapi": "ts-node scripts/generate-openapi.ts",
+    "preview:personal-import": "ts-node src/scripts/personalImportPreview.ts",
+    "load:personal-import": "ts-node src/scripts/personalImportLoad.ts",
+    "test:personal-import": "jest --config jest.personal-import.config.js src/__tests__/services/PersonalImportService.test.ts --runInBand"
   },
   "keywords": [],
   "author": "",
